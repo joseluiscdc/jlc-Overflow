@@ -1,0 +1,28 @@
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <mat-form-field>
+    <input matInput placeholder="Título" name="title" ngModel>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Descripción" name="description" ngModel>
+  </mat-form-field>
+  <mat-grid-list cols="3" rowHeight="3:2">
+      <mat-grid-tile>
+        <button mat-button type="button" color="primary" (click)="onClick('none')">
+          <i mat-icon class="material-icons">help</i>
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile *ngFor="let icon of icons">
+        <ng-container *ngIf="icon.name !== 'illustrator'">
+          <button mat-button type="button" color="primary" (click)="onClick(icon.name)">
+            <i mat-icon aria-hidden="true" class="devicon-{{ icon.name }}-{{ getIconVersion(icon) }} {{selectedIcon === icon.name ? 'colored' : ' ' }}"></i>
+          </button>
+        </ng-container>
+        <ng-container *ngIf="icon.name === 'illustrator'">
+          <button mat-button type="button" color="primary" (click)="onClick('illustrator')">
+            <i mat-icon class="devicon-illustrator-plain {{selectedIcon === icon.name ? 'colored' : ' ' }}"></i>
+        </button>
+        </ng-container>
+      </mat-grid-tile>
+    </mat-grid-list>
+  <button type="submit" mat-raised-button color="primary">Enviar</button>
+</form>
