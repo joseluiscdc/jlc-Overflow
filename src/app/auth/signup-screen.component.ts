@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from './user.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from './auth.service';
+import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup-screen',
@@ -11,6 +15,8 @@ export class SignupScreenComponent implements OnInit {
   public hide = true;
   public passwordNotCheck = false;
   public signUpForm: FormGroup;
+
+  constructor(private authService: AuthService) { }
 
   /* tslint:disable:typedef */
   public ngOnInit() {
@@ -28,6 +34,7 @@ export class SignupScreenComponent implements OnInit {
     if (this.signUpForm.valid && this.signUpForm.value.password === this.signUpForm.value.passwordchk ) {
       const{firstName, lastName, email, password} = this.signUpForm.value;
       const user = new User(email, password, firstName, lastName);
+      this.authService.signUp(user).subscribe(this.authService.login, catchError(this.handleError));
       this.hide = true;
       this.passwordNotCheck = false;
     }
@@ -37,4 +44,17 @@ export class SignupScreenComponent implements OnInit {
     }
   }
 
+  private handleError(error: HttpErrorResponse) {
+      if (error.error instanceof ErrorEvent) {
+          console.error('An error ocurred: ', error.error.message);
+      } else {
+          console.error(
+              error.error
+          );
+      }
+
+      return throwError(
+          'Something bad happened; please try again later.'
+      );
+  }
 }

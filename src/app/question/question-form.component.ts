@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import icons from './icons';
 import { Question } from './question.model';
+import { QuestionService } from './question.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-question-form',
@@ -14,13 +16,15 @@ import { Question } from './question.model';
     }
   `],
   templateUrl: './question-form.component.html',
+  providers: [QuestionService]
 })
 export class QuestionFormComponent implements OnInit {
+  constructor(private questionService: QuestionService,
+              private router: Router) {}
+
   /* tslint:disable:ban-types */
   public icons: Object[] = icons;
   public selectedIcon: 'none';
-
-  constructor() { }
 
   public ngOnInit(): void {
   }
@@ -43,13 +47,18 @@ export class QuestionFormComponent implements OnInit {
 
   /* tslint:disable:typedef */
   public onSubmit(form: NgForm) {
-    const q = new Question(
-      form.value.title,
-      form.value.description,
-      new Date(),
-      this.selectedIcon,
-    );
-    console.log(q);
+     const q = new Question(
+        form.value.title,
+        form.value.description,
+        new Date(),
+        this.selectedIcon,
+      );
+     this.questionService.addQuestion(q)
+      .subscribe(
+        ({ _id }) => this.router.navigate(['/questions', _id]),
+        error => console.log(error)
+      );
+    form.resetForm();
   }
 
 }

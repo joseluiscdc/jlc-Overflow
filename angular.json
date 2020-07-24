@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "jlc-overflow"
+  "defaultProject": "jlc-overflow",
+  "cli": {
+    "analytics": "a1db54ad-a105-4d58-a6df-7cd71a081de9"
+  }
 }

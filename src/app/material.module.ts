@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const modules = [
   MatButtonModule,
@@ -19,6 +20,7 @@ const modules = [
   MatGridListModule,
   MatListModule,
   MatRadioModule,
+  MatSnackBarModule
 ];
 
 @NgModule({

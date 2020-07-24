@@ -1,17 +1,16 @@
 <mat-card>
   <mat-card-header>
     <div mat-card-avatar>
-      <i mat-list-icon class="{{question.icon}} icon"></i>
+      <i *ngIf="question.icon === 'none'" mat-icon="" class="material-icons">help</i>
+      <i *ngIf="question.icon !== 'none'" mat-list-icon="" aria-hidden="true" class="devicon-{{ question.icon }}-plain icon colored"></i>
     </div>
     <mat-card-title>
-      <h2>{{question.title}}</h2>
+      <h2>{{ question.title }}</h2>
     </mat-card-title>
-    <mat-card-subtitle>
-      <small><h2>José Luis - {{question.createdAt | amLocale: 'es' | amTimeAgo}}</h2></small>
-    </mat-card-subtitle>
+    <mat-card-subtitle>{{ question.user.firstName }} {{ question.user.lastName }} - {{ question.createdAt | amLocale:'es' | amTimeAgo }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <p>{{question.description}}</p>
+    <p>{{ question.description }}</p>
   </mat-card-content>
 </mat-card>
 <div class="answers">
@@ -30,5 +29,5 @@
   <ng-template #noAnswer>
       <p>Sé el primero en responder esta pregunta.</p>
   </ng-template>
-  <app-answer-form  [question]="question" class="answer-form"></app-answer-form>
+  <app-answer-form [question]="question" class="answer-form"></app-answer-form>
 </div>
