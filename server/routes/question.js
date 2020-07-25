@@ -6,7 +6,6 @@ const { handleError } = require('../utils')
 const User = require('../models/user')
 const app = express.Router()
 
-// GET /api/questions/:id
 app.get('/:id', async (req, res) => {
     try {
         const _id = req.params.id
@@ -18,7 +17,6 @@ app.get('/:id', async (req, res) => {
     }
 })
 
-// GET /api/questions
 app.get('/', async (req, res) => {
     try {
         const { sort } = req.query
@@ -30,10 +28,8 @@ app.get('/', async (req, res) => {
     }
 })
 
-// POST /api/questions
 app.post('/', async (req, res) => {
     try {
-        console.log(req.user)
         const { title, description, icon, user } = req.body
         const q = {
             title,
