@@ -1,0 +1,12 @@
+<mat-tab-group mat-align-tabs="start">
+  <mat-tab label="Recientes">
+	<app-question-list sort='-createdAt' userFilter='false'></app-question-list>
+  </mat-tab>
+  <mat-tab label="Relevantes">
+	<app-question-list sort='-answers' userFilter='false'></app-question-list>
+  </mat-tab>
+  <mat-tab *ngIf="hideTabQuestionUser" label="Mis Preguntas">
+	<app-question-list sort='-createdAt' userFilter='true'></app-question-list>
+  </mat-tab>
+</mat-tab-group>
+<button [routerLink]="['questions/new']" mat-fab class="add-question" color="primary">+</button>
