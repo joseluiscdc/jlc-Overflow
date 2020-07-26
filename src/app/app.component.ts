@@ -20,7 +20,11 @@ export class AppComponent {
   }
 
   logout() {
-    this.authService.logout()
+    this.authService.logout();
+  }
+
+  perfil() {
+    alert('Holi '+this.authService.currentUser.fullName());
   }
 
 }

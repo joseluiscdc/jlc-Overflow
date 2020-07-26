@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Question } from './question.model';
 import { QuestionService } from './question.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-question-list',
@@ -20,30 +21,41 @@ import { QuestionService } from './question.service';
         left: 35%;
     }
     .add-question {
-      position: fixed;
+      position: fixed
       bottom: 30px;
       right: 30px;
       font-size: 24px;
     }
   `],
   templateUrl: './question-list.component.html',
-  providers: [QuestionService]
+  providers: [QuestionService, AuthService]
 })
 
 export class QuestionListComponent implements OnInit {
-    constructor(private questionService: QuestionService) {}
+    constructor(private questionService: QuestionService,
+                private authService: AuthService) {}
 
-    @Input() sort = '-createdAt';
+    @Input() sort;
+    @Input() userFilter = 'false';
 
     questions: Question[];
     loading = true;
+    userId = '';
 
     ngOnInit() {
-        this.questionService
-            .getQuestions(this.sort)
-            .subscribe(res => {
-                this.questions = res;
-                this.loading = false;
-            });
+      if(this.authService.isLoggedIn()) {
+        let { userId } = JSON.parse(this.authService.getUser());
+         this.userId = userId;
+        if(this.userFilter === 'false') {
+          this.userId = '';
+        }
+      }
+
+      this.questionService
+          .getQuestions(this.sort, this.userFilter, this.userId)
+          .subscribe(resQuestions => {
+              this.questions = resQuestions;
+              this.loading = false;
+           });
     }
 }

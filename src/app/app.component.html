@@ -1,7 +1,9 @@
 <mat-toolbar color="primary">
  <span [routerLink]="['/']">jlcOverflow</span>
   <span class="space"></span>
-
+  <button [routerLink]="['questions/new']" mat-icon-button>
+    <mat-icon>question_answer</mat-icon>
+  </button>
   <button *ngIf="!isLoggedIn()" [routerLink]="['/signin']" mat-icon-button>
     <mat-icon>account_circle</mat-icon>
   </button>
@@ -13,6 +15,9 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item disabled>
         {{ fullName() }}
+      </button>
+      <button mat-menu-item (click)="perfil()">
+        Perfil
       </button>
       <button mat-menu-item (click)="logout()">
         Cerrar sesión

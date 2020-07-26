@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken')
 
 const debug = new Debug('jlc-overflow:auth-middleware*')
 
-function required(req, res, next) {
-    jwt.verify(req.query.token, config.secret, (err, token)=> {
+const required = (req, res, next) => {
+    jwt.verify(req.query.token, config.secret, (err, token) => {
         if (err) {
             debug('JWT wat not encrypted with our secret..')
             return res.status(401).json({
@@ -19,4 +19,4 @@ function required(req, res, next) {
     })
 }
 
-module.export = { required }
+module.exports = required

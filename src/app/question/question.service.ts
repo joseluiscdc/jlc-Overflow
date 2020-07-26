@@ -15,8 +15,9 @@ export class QuestionService {
 		this.questionUrl = urljoin(environment.apiUrl, 'questions');
 	}
 
-    getQuestions(sort = '-createdAt'): Observable<Question[]> {
-        return this.http.get(`${this.questionUrl}?sort=${sort}`)
+    getQuestions(sort, userFilter, userId): Observable<Question[]> {
+        let url = `${this.questionUrl}?sort=${sort}&userId=${userId}`;
+        return this.http.get(url)
             .pipe(
                 map( res => {
                     return res as Question[]
@@ -29,8 +30,6 @@ export class QuestionService {
         return this.http.get(url)
             .pipe(
                 map( res => {
-                    console.log("aers")
-                    console.log(res)
                     return res as Question
                 })
             );
@@ -44,9 +43,9 @@ export class QuestionService {
     addQuestion(question: Question): Observable<any> {
         const body = JSON.stringify(question);
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        //const token = this.getToken();
+        const token = this.getToken();
 
-        return this.http.post(this.questionUrl, body, { headers })
+        return this.http.post(this.questionUrl + token, body, { headers })
             .pipe(
                 map( res => {
                     return res as Question
@@ -60,17 +59,17 @@ export class QuestionService {
             description: answer.description,
             question: {
                 _id: answer.question._id
-            },
-            user: "5f13d0310039ad21f82ca470",
+            }
         };
         const body = JSON.stringify(a);
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         const id_answer = answer.question._id.toString();
         const url = urljoin(this.questionUrl, id_answer, 'answers');
-        return this.http.post(url, body, { headers })
+        const token = this.getToken();
+        return this.http.post(url + token, body, { headers })
             .pipe(
                 map( res => {
-                    return res as Question
+                    return res as Answer
                     }),
                     catchError(this.handleError)
                 );

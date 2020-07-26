@@ -1,9 +1,9 @@
-<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+<form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
-    <input matInput placeholder="Título" name="title" ngModel>
+    <input matInput placeholder="Título" id="title" formControlName="title">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Descripción" name="description" ngModel>
+    <input matInput placeholder="Descripción" id="description" formControlName="description">
   </mat-form-field>
   <mat-grid-list cols="3" rowHeight="3:2">
       <mat-grid-tile>

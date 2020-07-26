@@ -14,6 +14,7 @@ import { MaterialModule } from './material.module';
 import { QuestionDetailComponent } from './question/question-detail.component';
 import { QuestionFormComponent } from './question/question-form.component';
 import { QuestionListComponent } from './question/question-list.component';
+import { QuestionScreenComponent } from './question/question-screen.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
 
@@ -27,6 +28,7 @@ import { AuthService } from './auth/auth.service';
     SignupScreenComponent,
     QuestionFormComponent,
     QuestionListComponent,
+    QuestionScreenComponent,
   ],
   imports: [
     AppRoutingModule,

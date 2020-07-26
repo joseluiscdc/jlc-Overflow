@@ -32,7 +32,6 @@ export class SigninScreenComponent implements OnInit {
                 .subscribe(
                     this.authService.login,
                 )
-          console.log(user);
         }
     }
 

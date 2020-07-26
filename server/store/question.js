@@ -1,11 +1,15 @@
 const Debug = require('debug')
+const ObjectId = require('mongodb').ObjectId;
 const Question = require('../models/question')
 const Answer  = require('../models/answer')
 const debug = new Debug('jlc-overflow:store:question*')
 
-async function findAll(sort = '-createdAt') {
+async function findAll(sort = '-createdAt', userId = '') {
     debug('Get all questions...')
-    return Question.find().populate('user').sort(sort)
+    if(userId !== ''){
+      return Question.find({"user": ObjectId(`${userId}`)}).populate('answers').sort(sort)
+    }
+    return Question.find().populate('answers').sort(sort)
 }
 
 async function findById(_id) {
@@ -13,6 +17,14 @@ async function findById(_id) {
     return Question
         .findOne({ _id })
         .populate('user')
+        .populate({
+            path: 'answers',
+            options: { sort: '-createdAt' },
+            populate: {
+                path: 'user',
+                model: 'User'
+            }
+        })
 }
 
 async function create(q) {
@@ -22,11 +34,12 @@ async function create(q) {
 }
 
 async function createAnswer(q, a) {
-    debug(`Add new answer to question id ${q} ... `)
-    const question = await findById(q)
-    question.answers.push(a)
-    await question.save()
-    return a
+    debug(`Creating a new answer para question: ${q._id}`)
+    const answer = new Answer(a)
+    const savedAnswer = await answer.save()
+    q.answers.push(savedAnswer)
+    await q.save()
+    return savedAnswer
 }
 
 module.exports = {

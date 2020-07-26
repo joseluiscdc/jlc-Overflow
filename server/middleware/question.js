@@ -1,7 +1,7 @@
 const Question = require('../store/question')
 const { handleError } = require('./errors')
 
-async function questionMiddleware (req, res, next) {
+const questionMiddleware = async (req, res, next) => {
     try {
         req.question = await Question.findById(req.params.id)
         next()
@@ -10,4 +10,4 @@ async function questionMiddleware (req, res, next) {
     }
 }
 
-module.exports = { questionMiddleware }
+module.exports = questionMiddleware

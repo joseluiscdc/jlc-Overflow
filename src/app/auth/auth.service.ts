@@ -60,19 +60,22 @@ export class AuthService {
         return localStorage.getItem('token') !== null
     }
 
+    getUser() {
+        const user = localStorage.getItem('user');
+        return user;
+    }
+
     logout() {
         localStorage.clear();
         this.currentUser = null;
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/signin');
     }
 
     public handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {
             console.error('An error ocurred : ', error.error.message);
         } else {
-            console.error(
-                error.error
-            );
+            console.error(error.error);
         }
 
         return throwError(

@@ -2,7 +2,7 @@ const express = require('express')
 const required = require('../middleware/auth')
 const questionMiddleware = require('../middleware/question')
 const Question = require('../store/question')
-const { handleError } = require('../utils')
+const { handleError } = require('../middleware/errors')
 const User = require('../models/user')
 const app = express.Router()
 
@@ -12,30 +12,29 @@ app.get('/:id', async (req, res) => {
         const question = await Question.findById(_id)
         res.status(200).json(question)
     } catch (error) {
-        console.error(error)
         handleError(error, res)
     }
 })
 
 app.get('/', async (req, res) => {
     try {
-        const { sort } = req.query
-        const questions = await Question.findAll(sort)
+        const { sort, userId } = req.query
+        console.log(sort, userId)
+        const questions = await Question.findAll(sort, userId)
         res.status(200).json(questions)
     } catch (error) {
-        console.error(error)
         handleError(error, res)
     }
 })
 
-app.post('/', async (req, res) => {
+app.post('/', required, async (req, res) => {
     try {
         const { title, description, icon, user } = req.body
         const q = {
             title,
             description,
             icon,
-            user : "5f13cf15e3a6861cd09a856d"
+            user: req.user._id
         }
 
         const savedQuestion = await Question.create(q)
@@ -45,17 +44,18 @@ app.post('/', async (req, res) => {
     }
 })
 
-app.post('/:id/answers', async (req, res) => {
-    const idQuestion = req.params.id
+app.post('/:id/answers', required, questionMiddleware, async (req, res) => {
     const answer = req.body
+    const q = req.question
     answer.createdAt = new Date()
+    answer.user = new User(req.user)
     try {
-        const savedAnswer = await Question.createAnswer(idQuestion, answer)
-        const question = await Question.findById(idQuestion)
-        res.status(201).json(question)
+        const savedAnswer = await Question.createAnswer(q, answer)
+        res.status(201).json(savedAnswer)
     } catch (error) {
         handleError(error, res)
     }
 })
+
 
 module.exports = app

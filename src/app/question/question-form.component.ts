@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import icons from './icons';
 import { Question } from './question.model';
 import { QuestionService } from './question.service';
@@ -25,8 +25,13 @@ export class QuestionFormComponent implements OnInit {
   /* tslint:disable:ban-types */
   public icons: Object[] = icons;
   public selectedIcon: 'none';
+  public questionForm: FormGroup;
 
-  public ngOnInit(): void {
+  public ngOnInit() {
+    this.questionForm = new FormGroup({
+      title: new FormControl(null, Validators.required),
+      description: new FormControl(null, Validators.required),
+    });
   }
 
   /* tslint:disable:typedef */
@@ -46,19 +51,22 @@ export class QuestionFormComponent implements OnInit {
   }
 
   /* tslint:disable:typedef */
-  public onSubmit(form: NgForm) {
-     const q = new Question(
-        form.value.title,
-        form.value.description,
-        new Date(),
-        this.selectedIcon,
-      );
-     this.questionService.addQuestion(q)
-      .subscribe(
-        ({ _id }) => this.router.navigate(['/questions', _id]),
-        error => console.log(error)
-      );
-    form.resetForm();
+  public onSubmit() {
+     if (this.questionForm.valid) {
+       const q = new Question(
+          this.questionForm.value.title,
+          this.questionForm.value.description,
+          new Date(),
+          this.selectedIcon,
+        );
+
+       this.questionService.addQuestion(q)
+        .subscribe(
+          ({ _id }) => this.router.navigate(['/questions', _id]),
+          error => this.router.navigateByUrl('/signin')
+        );
+        this.questionForm.reset();
+     }
   }
 
 }

@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../auth/user.model';
 import { Question } from '../question/question.model';
 import { Answer } from './answer.model';
 import { QuestionService } from '../question/question.service';
 import { Router } from '@angular/router';
+import SweetScroll from 'sweet-scroll';
 
 @Component({
   selector: 'app-answer-form',
@@ -13,30 +15,42 @@ import { Router } from '@angular/router';
   providers: [QuestionService]
 })
 
-export class AnswerFormComponent {
+export class AnswerFormComponent implements OnInit{
   @Input() public question: Question;
+  sweetScroll: SweetScroll;
+  public answerForm: FormGroup;
 
-  constructor(
-    private questionService: QuestionService,
-    private router: Router
-  ) {
+  constructor(private questionService: QuestionService,
+              private router: Router) {
+    this.sweetScroll = new SweetScroll();
+  }
+
+  public ngOnInit() {
+    this.answerForm = new FormGroup({
+      description: new FormControl(null, [
+        Validators.required,
+      ]),
+    });
   }
 
   /* tslint:disable:typedef */
-  public onSubmit(form: NgForm) {
+  public onSubmit() {
     const answer = new Answer(
-      form.value.description,
+      this.answerForm.value.description,
       this.question,
       new Date(),
-      new User(null, null, 'Perra', 'Becerra', '5f13d0310039ad21f82ca470'),
     );
-    this.question.answers.unshift(answer);
-
-    this.questionService.addAnswer(answer)
-        .subscribe(
-          ({ _id }) => this.router.navigate(['/questions', _id]),
-          error => console.log(error)
-        );
-    form.reset();
+    if (this.answerForm.valid) {
+      this.questionService
+          .addAnswer(answer)
+          .subscribe(
+              a => {
+                  this.question.answers.unshift(a);
+                  this.sweetScroll.to('#title');
+              },
+              error => this.router.navigateByUrl('/signin')
+          );
+      this.answerForm.reset();
+    }
   }
 }
