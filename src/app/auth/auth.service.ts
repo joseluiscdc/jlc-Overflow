@@ -49,10 +49,23 @@ export class AuthService {
                 );
     }
 
-    login = ({ token, userId, firstName, lastName, email }) => {
-        this.currentUser = new User(email, null, firstName, lastName);
+    updateUser(user: User): Observable<any>  {
+        const body = JSON.stringify(user);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        return this.http.patch(urljoin(this.usersUrl), body, { headers })
+            .pipe(
+                map( (res: any) => {
+                        return res;
+                    }),
+                    catchError(this.handleError)
+                );
+    }
+
+    login = ({ token, userId, firstName, lastName, email, lastLogin }) => {
+        this.currentUser = new User(email, null, firstName, lastName, lastLogin);
         localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify({ userId, firstName, lastName, email }));
+        localStorage.setItem('user', JSON.stringify({ userId, firstName, lastName, email, lastLogin }));
         this.router.navigateByUrl('/');
     }
 

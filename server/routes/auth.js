@@ -25,6 +25,7 @@ app.post('/signin', async (req, res, next) => {
         return handleLoginFailed(res, 'Invalid information!')
     }
 
+    const upd = await User.updateLogin(user._id)
     const token = createToken(user)
 
     myResponse = {
@@ -33,13 +34,13 @@ app.post('/signin', async (req, res, next) => {
         userId: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
-        email: user.email
+        email: user.email,
+        lastLogin: user.lastLogin
     }
     res.status(200).json(myResponse)
 })
 
 app.post('/signup', async (req, res) => {
-    console.log(req.body)
     const { firstName, lastName, email, password } = req.body
     const u = {
         firstName,
@@ -65,6 +66,12 @@ app.post('/signup', async (req, res) => {
 app.get('/', async (req, res) => {
     const users = await User.findAll()
     res.status(200).json(users)
+})
+
+app.patch('/', async (req, res) => {
+    const { userId, password } = req.body
+    const user = await User.updatePwd(userId, bcrypt.hashSync(password, 6))
+    res.status(200).json(user)
 })
 
 module.exports = app

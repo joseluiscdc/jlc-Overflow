@@ -19,7 +19,6 @@ app.get('/:id', async (req, res) => {
 app.get('/', async (req, res) => {
     try {
         const { sort, userId } = req.query
-        console.log(sort, userId)
         const questions = await Question.findAll(sort, userId)
         res.status(200).json(questions)
     } catch (error) {

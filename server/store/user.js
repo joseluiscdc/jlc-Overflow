@@ -18,8 +18,20 @@ async function findOne(email) {
     return User.findOne({email})
 }
 
+async function updatePwd(userId, password) {
+    debug(`Update user ${userId}`)
+    return User.updateOne({ _id: userId, password })
+}
+
+async function updateLogin(userId) {
+    debug(`Update user last login ${userId}`)
+    return User.updateOne({ _id: userId, lastLogin: new Date() })
+}
+
 module.exports = {
 	create,
 	findAll,
 	findOne,
+    updatePwd,
+    updateLogin,
 }

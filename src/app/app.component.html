@@ -16,7 +16,7 @@
       <button mat-menu-item disabled>
         {{ fullName() }}
       </button>
-      <button mat-menu-item (click)="perfil()">
+      <button mat-menu-item [routerLink]="['/profile']">
         Perfil
       </button>
       <button mat-menu-item (click)="logout()">

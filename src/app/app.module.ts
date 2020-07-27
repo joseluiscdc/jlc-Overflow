@@ -17,6 +17,9 @@ import { QuestionListComponent } from './question/question-list.component';
 import { QuestionScreenComponent } from './question/question-screen.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
+import { ProfileComponent } from './profile/profile.component';
+import { MessageComponent } from './message/message.component';
+import { DeleteCtaComponent } from './message/deleteCta.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -29,6 +32,9 @@ import { AuthService } from './auth/auth.service';
     QuestionFormComponent,
     QuestionListComponent,
     QuestionScreenComponent,
+    ProfileComponent,
+    MessageComponent,
+    DeleteCtaComponent,
   ],
   imports: [
     AppRoutingModule,

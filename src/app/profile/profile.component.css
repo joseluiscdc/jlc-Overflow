@@ -1,0 +1,35 @@
+form {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 40px auto;
+  margin-top: 20px;
+}
+
+.passwords {
+  border-color: #c70039;
+  border-style: dotted;
+  border-width: 4px;
+  text-align: center;
+}
+
+.msg {
+  display: inline-grid;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 20px;
+  color: #A8503B;
+  white-space: nowrap;
+  background-color: #FBEAE6;
+  border: 1px solid transparent;
+  border-radius: 2em;
+}
+
+.mat-form-field {
+  padding: 5px 12px;
+  line-height: 15px;
+  display: flex;
+  flex-direction: column;
+}

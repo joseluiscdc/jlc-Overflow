@@ -32,7 +32,7 @@ export class SignupScreenComponent implements OnInit {
   /* tslint:disable:typedef */
   public onSubmit() {
     if (this.signUpForm.valid && this.signUpForm.value.password === this.signUpForm.value.passwordchk ) {
-      const{firstName, lastName, email, password} = this.signUpForm.value;
+      const { firstName, lastName, email, password } = this.signUpForm.value;
       const user = new User(email, password, firstName, lastName);
       this.authService.signUp(user).subscribe(this.authService.login, catchError(this.handleError));
       this.hide = true;

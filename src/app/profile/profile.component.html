@@ -1,0 +1,49 @@
+<form [formGroup]="profileForm">
+  <p class="msg" *ngIf="passwordNotCheck"><i class="material-icons">clear</i>&nbsp;Las contraseñas no coinciden</p>
+  <br *ngIf="passwordNotCheck">
+<mat-card class="example-full-width">
+  <mat-card-header>
+    <mat-card-title>Información personal </mat-card-title>
+    <mat-card-subtitle>Último acceso : {{userProfile.lastLogin | amLocale: 'es' | amTimeAgo}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="example-full-width">
+	<mat-card class="example-full-width">
+	  <mat-form-field class="example-full-width">
+	     <mat-label>Correo</mat-label>
+	     <input matInput placeholder="email@gmail.com" id="email" disabled value="{{userProfile.email}}">
+	     <mat-icon matSuffix>mail_outline</mat-icon>
+	  </mat-form-field>
+	</mat-card>
+	<br>
+  	<mat-card>
+	  <mat-form-field class="example-full-width">
+	     <mat-label>Nombres</mat-label>
+	     <input matInput id="firstName" disabled value="{{userProfile.firstName}}">
+	     <mat-icon matSuffix >face</mat-icon>
+	  </mat-form-field>
+	  <mat-form-field class="example-full-width">
+	     <mat-label>Apellidos</mat-label>
+	     <input matInput id="lastName" disabled value="{{userProfile.lastName}}" >
+	     <mat-icon matSuffix>face</mat-icon>
+	  </mat-form-field>
+	</mat-card>
+	<br>
+	<mat-card>
+	  <mat-form-field class="example-full-width">
+	     <mat-label>Contraseña *</mat-label>
+	     <input matInput formControlName="password" id="password" [type]="hide ? 'password' : 'text'">
+	     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off' }}</mat-icon>
+	  </mat-form-field>
+	  <mat-form-field class="example-full-width">
+	     <mat-label>Repita Contraseña *</mat-label>
+	     <input matInput formControlName="passwordchk" id="passwordchk" [type]="hide ? 'password' : 'text'">
+	     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off' }}</mat-icon>
+	  </mat-form-field>
+	</mat-card>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="onSubmit()" mat-raised-button color="primary">Actualizar</button>
+    <button (click)="confirmDelete()" mat-raised-button color="warm">Cerrar Cuenta</button>
+  </mat-card-actions>
+</mat-card>
+</form>
