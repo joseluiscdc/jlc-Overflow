@@ -22,7 +22,7 @@ h2 {
 .answers-list {
   padding: 0;
   list-style-type: none;
-  padding-bottom: 150px;
+  padding-bottom: 180px;
 }
 
 h5 {
@@ -51,4 +51,11 @@ h5 small {
   z-index: 2;
   background-color: white;
   border-top: 1px solid #dcdcdc;
+}
+
+.question-close {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 44px;
 }

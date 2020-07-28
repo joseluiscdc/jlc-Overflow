@@ -32,8 +32,8 @@ export class ProfileComponent implements OnInit {
   public ngOnInit() {
   	this.userProfile = JSON.parse(this.authService.getUser());
     this.profileForm = new FormGroup({
-      password: new FormControl(null, [Validators.required]),
-      passwordchk: new FormControl(null, Validators.required),
+       password: new FormControl(null, [Validators.required]),
+       passwordchk: new FormControl(null, Validators.required),
     });
   }
 
@@ -42,10 +42,22 @@ export class ProfileComponent implements OnInit {
       this.passwordNotCheck = true;
     }
     if (this.profileForm.valid && this.profileForm.value.password === this.profileForm.value.passwordchk ) {
-      this.dialog.open(DeleteCtaComponent);
+      const user = new User(this.userProfile.email, this.profileForm.value.password);
+      this.authService.validateUser(user).subscribe((res) => {
+        if(res){
+          this.dialog.open(DeleteCtaComponent)
+        } else {
+          this.passwordNotCheck = true;
+        }
+      })
+
       this.hide = true;
       this.passwordNotCheck = false;
     }
+  }
+
+  public cancelSubmit() {
+    this.router.navigateByUrl('/')
   }
 
   public onSubmit() {

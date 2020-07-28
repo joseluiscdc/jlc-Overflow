@@ -35,7 +35,24 @@ app.post('/', required, async (req, res) => {
             icon,
             user: req.user._id
         }
+        const savedQuestion = await Question.create(q)
+        res.status(201).json(savedQuestion)
+    } catch (error) {
+        handleError(error, res)
+    }
+})
 
+app.patch('/', required, async (req, res) => {
+    try {
+        const { _id, title, description, icon, user, status } = req.body
+        const q = {
+            _id,
+            title,
+            description,
+            icon,
+            user: req.user._id,
+            status,
+        }
         const savedQuestion = await Question.create(q)
         res.status(201).json(savedQuestion)
     } catch (error) {

@@ -3,7 +3,7 @@ const User = require('../models/user')
 const debug = new Debug('jlc-overflow:store:user*')
 
 async function create(usr) {
-    debug(`Creating a new user ${usr}`)
+    debug(`Creating a new user ${usr.email}`)
     const user = new User(usr)
     return await user.save()
 }
@@ -20,12 +20,17 @@ async function findOne(email) {
 
 async function updatePwd(userId, password) {
     debug(`Update user ${userId}`)
-    return User.updateOne({ _id: userId, password })
+    return User.updateOne({ password })
 }
 
 async function updateLogin(userId) {
     debug(`Update user last login ${userId}`)
-    return User.updateOne({ _id: userId, lastLogin: new Date() })
+    return User.updateOne({ lastLogin: new Date() })
+}
+
+async function deleteUser(userId) {
+    debug(`Deleting user ${userId}`)
+    return User.deleteOne({ _id: userId })
 }
 
 module.exports = {
@@ -34,4 +39,5 @@ module.exports = {
 	findOne,
     updatePwd,
     updateLogin,
+    deleteUser,
 }

@@ -1,5 +1,5 @@
 <form [formGroup]="profileForm">
-  <p class="msg" *ngIf="passwordNotCheck"><i class="material-icons">clear</i>&nbsp;Las contraseñas no coinciden</p>
+  <p class="msg" *ngIf="passwordNotCheck">Las contraseñas no coinciden</p>
   <br *ngIf="passwordNotCheck">
 <mat-card class="example-full-width">
   <mat-card-header>
@@ -42,8 +42,9 @@
 	</mat-card>
   </mat-card-content>
   <mat-card-actions>
-    <button (click)="onSubmit()" mat-raised-button color="primary">Actualizar</button>
-    <button (click)="confirmDelete()" mat-raised-button color="warm">Cerrar Cuenta</button>
+    <button (click)="onSubmit()" mat-raised-button color="primary"><mat-icon>save</mat-icon> Actualizar</button>
+    <button (click)="cancelSubmit()" mat-raised-button color="secondary"><mat-icon>cancel</mat-icon> Cancelar</button>
+    <button (click)="confirmDelete()" mat-stroked-button color="warn"><mat-icon>delete_outline</mat-icon> Cerrar Cuenta</button>
   </mat-card-actions>
 </mat-card>
 </form>

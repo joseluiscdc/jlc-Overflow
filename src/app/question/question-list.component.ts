@@ -5,28 +5,7 @@ import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-question-list',
-  styles: [`
-    i {
-      font-size: 48px;
-    }
-    i.help {
-      width: 48px !important;
-      height: 48px !important;
-      padding: 0 !important;
-      font-size: 48px !important;
-    }
-    mat-spinner {
-        position: absolute;
-        bottom: 45%;
-        left: 35%;
-    }
-    .add-question {
-      position: fixed
-      bottom: 30px;
-      right: 30px;
-      font-size: 24px;
-    }
-  `],
+  styleUrls: ['./question-list.component.css'],
   templateUrl: './question-list.component.html',
   providers: [QuestionService, AuthService]
 })

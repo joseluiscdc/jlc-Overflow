@@ -28,10 +28,7 @@ export class SigninScreenComponent implements OnInit {
         if (this.signinForm.valid) {
           const { email, password } = this.signinForm.value;
           const user = new User(email, password);
-          this.authService.signIn(user)
-                .subscribe(
-                    this.authService.login,
-                )
+          this.authService.signIn(user).subscribe(this.authService.login)
         }
     }
 

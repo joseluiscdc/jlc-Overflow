@@ -3,6 +3,8 @@ const Debug = require('debug')
 const jwt = require('jsonwebtoken')
 const { config } = require('../config')
 const User = require('../store/user')
+const Question = require('../store/question')
+const Answer = require('../store/answer')
 const bcrypt = require('bcryptjs')
 const { handleLoginFailed } = require('../middleware/errors')
 const app = express.Router()
@@ -61,6 +63,39 @@ app.post('/signup', async (req, res) => {
         email: user.email
     }
     res.status(201).json(myResponse)
+})
+
+app.post('/validate', async (req, res, next) => {
+    const { email, password } = req.body
+    const user = await User.findOne(email)
+    let valid = true;
+
+    if (!user) {
+        debug(`User with email ${email} not found!`)
+        valid = false;
+    }
+
+    if (!bcrypt.compareSync(password, user.password)) {
+        debug('Do not match!')
+        valid = false;
+    }
+
+    myResponse = {
+        message: valid
+    }
+    res.status(200).json(myResponse)
+})
+
+app.post('/close', async (req, res, next) => {
+    const { userId, email, password } = req.body
+    const resA = await Answer.deleteAnswers(userId)
+    const resQ = await Question.deleteQuestions(userId)
+    const resU = await User.deleteUser(userId)
+
+    myResponse = {
+        message: 'Cuenta eliminada exitosamente!',
+    }
+    res.status(200).json(myResponse)
 })
 
 app.get('/', async (req, res) => {

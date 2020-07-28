@@ -62,11 +62,45 @@ export class AuthService {
                 );
     }
 
+    validateUser(user: User) {
+        const body = JSON.stringify(user);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        return this.http.post(urljoin(this.usersUrl, 'validate'), body, { headers })
+            .pipe(
+                map( (res: any) => {
+                    return res.message;
+                }),
+                catchError(this.handleError)
+            );
+    }
+
+    closeCta(user: User): Observable<any>  {
+        const body = JSON.stringify(user);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        return this.http.post(urljoin(this.usersUrl, 'close'), body, { headers })
+            .pipe(
+                map( (res: any) => {
+                        return res;
+                    }),
+                    catchError(this.handleError)
+                );
+    }
+
     login = ({ token, userId, firstName, lastName, email, lastLogin }) => {
         this.currentUser = new User(email, null, firstName, lastName, lastLogin);
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify({ userId, firstName, lastName, email, lastLogin }));
         this.router.navigateByUrl('/');
+    }
+
+    isOwner(q) {
+        if(this.isLoggedIn()){
+            return q.user._id === this.currentUser.userId;
+        } else {
+            return false;
+        }
     }
 
     isLoggedIn() {

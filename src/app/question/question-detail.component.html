@@ -29,8 +29,17 @@
       </li>
     </ul>
     <ng-template #noAnswer>
-        <p>Sé el primero en responder esta pregunta.</p>
+      <p>Sé el primero en responder esta pregunta.</p>
     </ng-template>
-    <app-answer-form [question]="question" class="answer-form"></app-answer-form>
+
+
+    <div *ngIf="owner; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <app-answer-form [question]="question" class="answer-form"></app-answer-form>
+    </ng-template>
+    <ng-template #elseBlock>
+        <mat-icon *ngIf="question.status === '0'" class="question-close" matPreffix>lock</mat-icon>
+        <app-answer-form *ngIf="question.status === '1'" [question]="question" class="answer-form"></app-answer-form>
+    </ng-template>
   </div>
 </div>

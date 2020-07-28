@@ -10,6 +10,7 @@ export class Question {
   public createdAt?: Date;
   public icon?: string;
   user: User;
+  public status?: string;
 
   constructor(
     title: string,
@@ -17,6 +18,7 @@ export class Question {
     createdAt?: Date,
     icon?: string,
     user?: User,
+    status?: string,
   ) {
     this.title = title;
     this.description = description;
@@ -24,5 +26,6 @@ export class Question {
     this.icon = icon;
     this.answers = [];
     this.user = user;
+    this.status = status;
   }
 }

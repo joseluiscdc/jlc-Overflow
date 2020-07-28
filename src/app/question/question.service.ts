@@ -49,8 +49,21 @@ export class QuestionService {
             .pipe(
                 map( res => {
                     return res as Question
-                    }),
-                    catchError(this.handleError)
+                  }),
+                  catchError(this.handleError)
+                );
+    }
+
+    updateQuestion(question: Question): Observable<any> {
+        const body = JSON.stringify(question);
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        const token = this.getToken();
+        return this.http.patch(this.questionUrl + token, body, { headers })
+            .pipe(
+                map( res => {
+                    return res as Question
+                  }),
+                  catchError(this.handleError)
                 );
     }
 

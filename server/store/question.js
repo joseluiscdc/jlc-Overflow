@@ -14,23 +14,27 @@ async function findAll(sort = '-createdAt', userId = '') {
 
 async function findById(_id) {
     debug(`Get question by id ${_id}`)
-    return Question
-        .findOne({ _id })
-        .populate('user')
-        .populate({
-            path: 'answers',
-            options: { sort: '-createdAt' },
-            populate: {
-                path: 'user',
-                model: 'User'
-            }
-        })
+    return Question.findOne({ _id })
+                    .populate('user')
+                    .populate({
+                        path: 'answers',
+                        options: { sort: '-createdAt' },
+                        populate: {
+                            path: 'user',
+                            model: 'User'
+                        }
+    })
 }
 
 async function create(q) {
-    debug(`Creating a new question...`)
     const question = new Question(q)
-    return question.save()
+    if(q._id){
+        debug(`Updating question ${q._id}`)
+        return question.updateOne(q)
+    } else {
+        debug(`Creating a new question...`)
+        return question.save()
+    }
 }
 
 async function createAnswer(q, a) {
@@ -42,9 +46,17 @@ async function createAnswer(q, a) {
     return savedAnswer
 }
 
+async function deleteQuestions(userId) {
+    debug(`Deleting question for user ${userId}`)
+    if(userId !== ''){
+      return Question.deleteMany({"user": ObjectId(`${userId}`)})
+    }
+}
+
 module.exports = {
     findAll,
     findById,
     create,
     createAnswer,
+    deleteQuestions,
 }

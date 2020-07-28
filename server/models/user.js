@@ -8,7 +8,7 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
-    lastLogin: { type: Date, required: true },
+    lastLogin: { type: Date, required: true, default: Date.now },
 })
 
 UserSchema.plugin(uniqueValidator)
