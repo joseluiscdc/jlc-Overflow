@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./profile.component.css'],
   providers: [AuthService]
 })
+
 export class ProfileComponent implements OnInit {
   public hide = true;
   public passwordNotCheck = false;
