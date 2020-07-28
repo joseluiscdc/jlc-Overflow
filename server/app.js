@@ -25,9 +25,6 @@ if (process.env.NODE_ENV === 'production') {
     next()
   })
 	app.use(express.static(path.join(process.cwd(), 'dist/jlc-overflow')))
-  app.get('/*', function(req, res) {
-    res.sendFile('index.html', { root: 'dist/jlc-overflow/' });
-  })
 }
 
 app.use('/api/questions', question)
