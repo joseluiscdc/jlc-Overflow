@@ -1,6 +1,4 @@
 <form [formGroup]="profileForm">
-  <p class="msg" *ngIf="passwordNotCheck">Las contraseñas no coinciden</p>
-  <br *ngIf="passwordNotCheck">
 <mat-card class="example-full-width">
   <mat-card-header>
     <mat-card-title>Información personal </mat-card-title>
@@ -29,6 +27,8 @@
 	</mat-card>
 	<br>
 	<mat-card>
+	  <p class="msg" *ngIf="passwordNotCheck">Las contraseñas no coinciden</p>
+	  <br *ngIf="passwordNotCheck">
 	  <mat-form-field class="example-full-width">
 	     <mat-label>Contraseña *</mat-label>
 	     <input matInput formControlName="password" id="password" [type]="hide ? 'password' : 'text'">
