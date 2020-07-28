@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
   templateUrl: './question-form.component.html',
   providers: [QuestionService]
 })
+
 export class QuestionFormComponent implements OnInit {
   constructor(private questionService: QuestionService,
               private router: Router) {}
