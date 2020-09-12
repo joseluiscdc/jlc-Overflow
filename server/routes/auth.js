@@ -71,7 +71,7 @@ app.post('/signup', async (req, res) => {
         }
         res.status(201).json(myResponse)
     } catch (error) {
-        debug('Error in app.post/signin')
+        debug('Error in app.post/signup')
         res.status(500).json(myResponse)
     }
 })
