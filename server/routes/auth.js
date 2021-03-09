@@ -120,11 +120,6 @@ app.post('/close', async (req, res, next) => {
 
 })
 
-app.get('/', async (req, res) => {
-    const users = await User.findAll()
-    res.status(200).json(users)
-})
-
 app.patch('/', async (req, res) => {
     const { userId, password } = req.body
     const user = await User.updatePwd(userId, bcrypt.hashSync(password, 6))

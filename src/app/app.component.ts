@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { AuthService } from './auth/auth.service';
+import { Component } from "@angular/core";
+import { AuthService } from "./auth/auth.service";
 
 @Component({
-  selector: 'app-root',
-  styleUrls: ['./app.component.css'],
-  templateUrl: './app.component.html',
+  selector: "app-root",
+  styleUrls: ["./app.component.css"],
+  templateUrl: "./app.component.html",
 })
 export class AppComponent {
-  public title = 'jlc-overflow';
+  public title = "jlc-overflow";
 
   constructor(private authService: AuthService) {}
 
